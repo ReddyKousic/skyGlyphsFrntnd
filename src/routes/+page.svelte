@@ -33,7 +33,7 @@
 			console.error('Error loading manifest:', error);
 		}
 	});
-	
+
 	function parseFileName(filename: string): Omit<LetterInfo, 'filename'> {
 		// Remove .webp extension and split by hyphens
 		const parts = filename.replace('.webp', '').split('-');
@@ -113,6 +113,8 @@
 		canvasEl: HTMLCanvasElement
 	): Promise<string> {
 		const scaleFactor = 0.75;
+
+		// Calculate total width and max height
 		const totalWidth = images.reduce((sum, img) => sum + img.width * scaleFactor, 0);
 		const maxHeight = Math.max(...images.map((img) => img.height * scaleFactor));
 
@@ -122,6 +124,7 @@
 		const ctx = canvasEl.getContext('2d');
 		if (!ctx) throw new Error('Canvas context not available');
 
+		// Draw all letter images
 		let xOffset = 0;
 		images.forEach((img) => {
 			const scaledWidth = img.width * scaleFactor;
@@ -130,25 +133,51 @@
 			xOffset += scaledWidth;
 		});
 
+		// Add watermark
+		const watermarkText = 'SkyGlyphs — skyglyphs.vercel.app';
+		const fontSize = Math.floor(canvasEl.width * 0.015); // 2.5% of width
+		ctx.font = `${fontSize}px sans-serif`;
+		ctx.textAlign = 'right';
+		ctx.textBaseline = 'bottom';
+
+		// Measure text for background rectangle
+		const textMetrics = ctx.measureText(watermarkText);
+		const padding = 6;
+		const rectWidth = textMetrics.width + padding * 2;
+		const rectHeight = fontSize + padding * 2;
+
+		// Draw semi-transparent background rectangle
+		ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'; // dark background, 40% opacity
+		ctx.fillRect(
+			canvasEl.width - rectWidth - 10,
+			canvasEl.height - rectHeight - 10,
+			rectWidth,
+			rectHeight
+		);
+
+		// Draw watermark text on top
+		ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; // bright text, 90% opacity
+		ctx.fillText(watermarkText, canvasEl.width - 10 - padding, canvasEl.height - 10 - padding / 2);
+
 		return canvasEl.toDataURL('image/png');
 	}
 
 	async function downloadImage() {
 		if (!result) return;
-		
+
 		downloading = true;
-		
+
 		try {
 			// Add a small delay to show the loading state
-			await new Promise(resolve => setTimeout(resolve, 300));
-			
+			await new Promise((resolve) => setTimeout(resolve, 300));
+
 			const link = document.createElement('a');
 			link.download = `skyglyphs-${word}.png`;
 			link.href = result.imageUrl;
 			link.click();
-			
+
 			// Brief success state
-			await new Promise(resolve => setTimeout(resolve, 500));
+			await new Promise((resolve) => setTimeout(resolve, 500));
 		} catch (error) {
 			console.error('Download failed:', error);
 		} finally {
@@ -192,7 +221,7 @@
 			<button
 				onclick={generateWord}
 				disabled={loading}
-				class="w-full rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-75 sm:w-auto whitespace-nowrap min-h-[2.5rem] flex items-center justify-center"
+				class="flex min-h-[2.5rem] w-full items-center justify-center rounded-lg bg-green-600 px-6 py-2 whitespace-nowrap text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-75 sm:w-auto"
 			>
 				{#if loading}
 					Generating...
@@ -230,7 +259,9 @@
 						class="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-6 py-2 text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-75"
 					>
 						{#if downloading}
-							<div class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+							<div
+								class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
+							></div>
 							Downloading...
 						{:else}
 							Download Image
@@ -274,7 +305,7 @@
 			</a>
 		</div>
 		<!-- Credits / Community Footer -->
-		<div class="space-y-3 border-t border-gray-200 pt-6  text-sm text-gray-500">
+		<div class="space-y-3 border-t border-gray-200 pt-6 text-sm text-gray-500">
 			<!-- Inspiration -->
 			<p class="text-xs text-gray-400">
 				Inspired by NASA's
@@ -291,7 +322,7 @@
 			</p>
 
 			<!-- Community -->
-			<p class="text-gray-600 text-center">
+			<p class="text-center text-gray-600">
 				SkyGlyphs is community-driven — anyone can contribute satellite images.
 			</p>
 
@@ -301,7 +332,7 @@
 				<span class="text-base font-semibold text-gray-900">With ❤️ from Kousic Thavva</span>
 				<span class="h-px w-12 bg-gray-300"></span>
 			</div>
-			<p class="text-xs text-gray-500 text-center">Designer & Builder of this website</p>
+			<p class="text-center text-xs text-gray-500">Designer & Builder of this website</p>
 		</div>
 	</div>
 </div>
