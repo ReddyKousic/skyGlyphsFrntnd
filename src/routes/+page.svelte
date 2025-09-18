@@ -14,7 +14,8 @@
 	type Manifest = Record<string, string[]>;
 	let manifest = $state<Manifest>({});
 
-    const BASE_URL = 'https://cdn.statically.io/gh/ReddyKousic/sky_glyphs_satellite_letters_webp/main';
+	const BASE_URL =
+		'https://cdn.statically.io/gh/ReddyKousic/sky_glyphs_satellite_letters_webp/main';
 
 	interface LetterInfo {
 		letter: string;
@@ -60,9 +61,8 @@
 		return { letter: '', place: 'Unknown', country: 'Unknown' };
 	}
 
-    console.log("Water: ", parseFileName("a-farm-island-maine.webp"));
-    
-    
+	console.log('Water: ', parseFileName('a-farm-island-maine.webp'));
+
 	async function generateWord() {
 		if (!word.trim()) return;
 
@@ -157,20 +157,27 @@
 			<p class="mx-auto max-w-2xl text-gray-600">
 				Generate your name using satellite imagery from NASA's Landsat program
 			</p>
+			<p class="mt-2 text-xs text-gray-500 italic sm:text-sm">
+				These are real satellite images — not AI generated. Collected from NASA's <a
+					href="https://landsat.gsfc.nasa.gov/"
+					class="text-green-600 hover:underline"
+					target="_blank">Landsat</a
+				> program and our growing community of contributors.
+			</p>
 		</div>
 
 		<!-- Input -->
-		<div class="mb-12 flex justify-center gap-4">
+		<div class="mx-auto mb-12 flex w-full max-w-md flex-col justify-center gap-4 sm:flex-row">
 			<input
 				type="text"
 				bind:value={word}
 				onkeypress={handleKeyPress}
 				placeholder="Enter your name"
-				class="rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+				class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
 			/>
 			<button
 				onclick={generateWord}
-				class="rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700"
+				class="w-full rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700 sm:w-auto"
 			>
 				Generate
 			</button>
@@ -224,7 +231,7 @@
 			</div>
 		{/if}
 
-		<div class="mb-8 rounded-lg bg-green-50 p-6">
+		<div class="mb-8 rounded-lg border-1 border-green-600 bg-green-50 p-4 lg:text-left">
 			<h3 class="mb-2 text-lg font-semibold text-gray-900">Help Expand SkyGlyphs!</h3>
 			<p class="mb-4 text-gray-600">
 				Have satellite images that look like letters? Contribute to our growing collection of
@@ -240,7 +247,7 @@
 			</a>
 		</div>
 		<!-- Credits / Community Footer -->
-		<div class="space-y-3 border-t border-gray-200 pt-6 text-center text-sm text-gray-500">
+		<div class="space-y-3 border-t border-gray-200 pt-6  text-sm text-gray-500">
 			<!-- Inspiration -->
 			<p class="text-xs text-gray-400">
 				Inspired by NASA's
@@ -257,7 +264,7 @@
 			</p>
 
 			<!-- Community -->
-			<p class="text-gray-600">
+			<p class="text-gray-600 text-center">
 				SkyGlyphs is community-driven — anyone can contribute satellite images.
 			</p>
 
@@ -267,7 +274,7 @@
 				<span class="text-base font-semibold text-gray-900">Kousic Thavva</span>
 				<span class="h-px w-12 bg-gray-300"></span>
 			</div>
-			<p class="text-xs text-gray-500">Designer & Builder of this website</p>
+			<p class="text-xs text-gray-500 text-center">Designer & Builder of this website</p>
 		</div>
 	</div>
 </div>
