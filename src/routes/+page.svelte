@@ -10,6 +10,7 @@
 		word: string;
 	} | null>(null);
 	let loading = $state<boolean>(false);
+	let downloading = $state<boolean>(false);
 
 	type Manifest = Record<string, string[]>;
 	let manifest = $state<Manifest>({});
@@ -32,10 +33,10 @@
 			console.error('Error loading manifest:', error);
 		}
 	});
+	
 	function parseFileName(filename: string): Omit<LetterInfo, 'filename'> {
 		// Remove .webp extension and split by hyphens
 		const parts = filename.replace('.webp', '').split('-');
-
 
 		if (parts.length >= 3) {
 			const letter = parts[0];
@@ -60,7 +61,6 @@
 
 		return { letter: '', place: 'Unknown', country: 'Unknown' };
 	}
-
 
 	async function generateWord() {
 		if (!word.trim()) return;
@@ -133,12 +133,27 @@
 		return canvasEl.toDataURL('image/png');
 	}
 
-	function downloadImage() {
+	async function downloadImage() {
 		if (!result) return;
-		const link = document.createElement('a');
-		link.download = `skyglyphs-${word}.png`;
-		link.href = result.imageUrl;
-		link.click();
+		
+		downloading = true;
+		
+		try {
+			// Add a small delay to show the loading state
+			await new Promise(resolve => setTimeout(resolve, 300));
+			
+			const link = document.createElement('a');
+			link.download = `skyglyphs-${word}.png`;
+			link.href = result.imageUrl;
+			link.click();
+			
+			// Brief success state
+			await new Promise(resolve => setTimeout(resolve, 500));
+		} catch (error) {
+			console.error('Download failed:', error);
+		} finally {
+			downloading = false;
+		}
 	}
 
 	function handleKeyPress(event: KeyboardEvent) {
@@ -176,9 +191,16 @@
 			/>
 			<button
 				onclick={generateWord}
-				class="w-full rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700 sm:w-auto"
+				disabled={loading}
+				class="w-full rounded-lg bg-green-600 px-6 py-2 text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-75 sm:w-auto whitespace-nowrap min-h-[2.5rem] flex items-center justify-center"
 			>
-				Generate
+				{#if loading}
+					Generating...
+				{:else if result}
+					Generate New Variation
+				{:else}
+					Generate
+				{/if}
 			</button>
 		</div>
 
@@ -204,9 +226,15 @@
 					/>
 					<button
 						onclick={downloadImage}
-						class="rounded-lg bg-gray-900 px-6 py-2 text-white transition-colors hover:bg-gray-800"
+						disabled={downloading}
+						class="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-6 py-2 text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-75"
 					>
-						Download Image
+						{#if downloading}
+							<div class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+							Downloading...
+						{:else}
+							Download Image
+						{/if}
 					</button>
 				</div>
 
@@ -270,7 +298,7 @@
 			<!-- Your Signature -->
 			<div class="mt-4 flex items-center justify-center gap-3">
 				<span class="h-px w-12 bg-gray-300"></span>
-				<span class="text-base font-semibold text-gray-900">Kousic Thavva</span>
+				<span class="text-base font-semibold text-gray-900">With ❤️ from Kousic Thavva</span>
 				<span class="h-px w-12 bg-gray-300"></span>
 			</div>
 			<p class="text-xs text-gray-500 text-center">Designer & Builder of this website</p>
