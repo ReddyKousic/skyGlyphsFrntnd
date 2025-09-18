@@ -35,7 +35,7 @@
 	function parseFileName(filename: string): Omit<LetterInfo, 'filename'> {
 		// Remove .webp extension and split by hyphens
 		const parts = filename.replace('.webp', '').split('-');
-		console.log('filename:', filename);
+
 
 		if (parts.length >= 3) {
 			const letter = parts[0];
@@ -61,7 +61,6 @@
 		return { letter: '', place: 'Unknown', country: 'Unknown' };
 	}
 
-	console.log('Water: ', parseFileName('a-farm-island-maine.webp'));
 
 	async function generateWord() {
 		if (!word.trim()) return;
