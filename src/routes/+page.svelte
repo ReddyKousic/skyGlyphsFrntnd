@@ -134,7 +134,7 @@
 		});
 
 		// Add watermark
-		const watermarkText = 'SkyGlyphs — skyglyphs.vercel.app';
+		const watermarkText = 'https://skyglyphs.koastec.com/';
 		const fontSize = Math.floor(canvasEl.width * 0.015); // 2.5% of width
 		ctx.font = `${fontSize}px sans-serif`;
 		ctx.textAlign = 'right';
@@ -262,7 +262,7 @@
 							<div
 								class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
 							></div>
-							Downloading...
+							Downloading as PNG...
 						{:else}
 							Download Image
 						{/if}
@@ -329,7 +329,7 @@
 			<!-- Your Signature -->
 			<div class="mt-4 flex items-center justify-center gap-3">
 				<span class="h-px w-12 bg-gray-300"></span>
-				<span class="text-base font-semibold text-gray-900">With ❤️ from Kousic Thavva</span>
+				<span class="text-base font-semibold text-gray-900">With ❤️ from Koastec</span>
 				<span class="h-px w-12 bg-gray-300"></span>
 			</div>
 			<p class="text-center text-xs text-gray-500">Designer & Builder of this website</p>
