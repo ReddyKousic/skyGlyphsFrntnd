@@ -322,14 +322,16 @@
 			</p>
 
 			<!-- Community -->
-			<p class="text-center text-gray-600">
+			<p class="text-center text-gray-600 mt-12">
 				SkyGlyphs is community-driven — anyone can contribute satellite images.
 			</p>
 
 			<!-- Your Signature -->
 			<div class="mt-4 flex items-center justify-center gap-3">
 				<span class="h-px w-12 bg-gray-300"></span>
-				<span class="text-base font-semibold text-gray-900">With ❤️ from Koastec</span>
+				<span class="text-base font-semibold text-gray-900">
+					With 💚 from <a href="https://x.com/thKousic" target="_blank" rel="noopener noreferrer" class="text-[#7cb342] hover:underline">thKousic</a>
+				</span>
 				<span class="h-px w-12 bg-gray-300"></span>
 			</div>
 			<p class="text-center text-xs text-gray-500">Designer & Builder of this website</p>
