@@ -16,7 +16,7 @@
 	let manifest = $state<Manifest>({});
 
 	const BASE_URL =
-		'https://cdn.statically.io/gh/ReddyKousic/sky_glyphs_satellite_letters_webp/main';
+		'https://cdn.statically.io/gh/ReddyKousic/sky_glyphs_satellite_letters_webp@main';
 
 	interface LetterInfo {
 		letter: string;
@@ -322,7 +322,7 @@
 			</p>
 
 			<!-- Community -->
-			<p class="text-center text-gray-600 mt-12">
+			<p class="mt-12 text-center text-gray-600">
 				SkyGlyphs is community-driven — anyone can contribute satellite images.
 			</p>
 
@@ -330,7 +330,12 @@
 			<div class="mt-4 flex items-center justify-center gap-3">
 				<span class="h-px w-12 bg-gray-300"></span>
 				<span class="text-base font-semibold text-gray-900">
-					With 💚 from <a href="https://x.com/thKousic" target="_blank" rel="noopener noreferrer" class="text-[#7cb342] hover:underline">thKousic</a>
+					With 💚 from <a
+						href="https://x.com/thKousic"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-[#7cb342] hover:underline">thKousic</a
+					>
 				</span>
 				<span class="h-px w-12 bg-gray-300"></span>
 			</div>
